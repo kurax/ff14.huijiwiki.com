@@ -83,7 +83,12 @@ export async function updateSaintCoinach() {
 export async function extractGameData() {
     const outputPath = getGameAssetsPath();
     if (outputPath == null) {
-        signale.fatal('未能获取游戏版本，无法导出游戏数据');
+        signale.error('未能获取游戏版本，无法导出游戏数据');
+        return;
+    }
+    const saintCoinachExePath = path.join(SAINTCOINACH_PATH, EXE_FILE_NAME);
+    if (!fs.existsSync(saintCoinachExePath)) {
+        signale.error('未能找到 Saint Coinach 工具，请先更新');
         return;
     }
     if (fs.existsSync(outputPath)) {
@@ -96,7 +101,7 @@ export async function extractGameData() {
     if (fs.existsSync(historyFile)) fs.unlinkSync(historyFile);
 
     const args = [getGamePath(), 'lang chs', 'exd', 'uihd', 'exit'];
-    for await (const line of execa({ cwd: SAINTCOINACH_PATH })`${path.join(SAINTCOINACH_PATH, EXE_FILE_NAME)} ${args}`) {
+    for await (const line of execa({ cwd: SAINTCOINACH_PATH })`${saintCoinachExePath} ${args}`) {
         const txt = String(line).trim();
         if (txt.endsWith(' is missing.') || txt.endsWith('is not an image.')) signale.warn(line);
         else if (txt.includes('failed: ')) signale.error(line);
