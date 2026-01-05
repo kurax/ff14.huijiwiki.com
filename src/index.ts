@@ -16,16 +16,17 @@ try {
             choices: [
                 { name: '更新 Saint Coinach 工具 (需要翻墙)', value: 'saintcoinach' },
                 { name: '从客户端提取游戏数据', value: 'extract' },
-                // { name: '上传处理后的文件到Wiki', value: 'upload' },
                 { name: '退出', value: 'quit' }
             ]
         });
         switch (action) {
-            case 'extract':
-                await extractGameData();
-                break;
             case 'saintcoinach':
                 await updateSaintCoinach();
+                signale.info('更新 Saint Coinach 工具操作已完成');
+                break;
+            case 'extract':
+                await extractGameData();
+                signale.info('从客户端提取游戏数据操作已完成');
                 break;
             default:
                 exit = true;
