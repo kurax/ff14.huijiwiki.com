@@ -6,6 +6,7 @@ import { generateCardPacks } from './cards.js';
 import { checkConfig } from './config.js';
 import { generateIconPacks } from './icons.js';
 import { extractGameData, updateSaintCoinach } from './saintcoinach.js';
+import { uploadFiles } from './upload.js';
 
 await checkConfig();
 
@@ -20,6 +21,7 @@ try {
                 { name: '从客户端提取游戏数据', value: 'extract' },
                 { name: '生成游戏图标雪碧图', value: 'iconpacks' },
                 { name: '生成幻卡卡牌雪碧图', value: 'cardpacks' },
+                { name: '上传生成的图片到Wiki', value: 'upload' },
                 { name: '退出', value: 'quit' }
             ]
         });
@@ -39,6 +41,10 @@ try {
             case 'cardpacks':
                 await generateCardPacks();
                 signale.info('操作已完成: 生成幻卡卡牌雪碧图');
+                break;
+            case 'upload':
+                await uploadFiles();
+                signale.info('操作已完成: 上传生成的图片到Wiki');
                 break;
             default:
                 exit = true;

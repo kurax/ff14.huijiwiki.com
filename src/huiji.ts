@@ -113,7 +113,7 @@ export class HuijiApiClient {
         return await this.apiCall('move', Object.assign({ from, to, token }, reason ? { reason } : null, noredirect ? { noredirect: 1 } : null));
     }
 
-    async upload(name: string, file: string, mimeType: string, comment?: string, text?: string) {
+    async upload(name: string, file: ArrayBuffer, mimeType: string, comment?: string, text?: string) {
         const token = await this.getToken();
         const formData = new FormData();
 
